@@ -394,7 +394,7 @@ async function test() {
    /*
    ------------------------------------------
    */
-   console.log(`----- PROXY SWAP -----`);
+   /*console.log(`----- PROXY SWAP -----`);
 
    //Define tupple for Exchange Swap
    const swaps = [
@@ -431,7 +431,7 @@ async function test() {
       tok3Address,
       deployerAddress
    );
-   console.log('----\n');
+   console.log('----\n');*/
 }
 
 test()
