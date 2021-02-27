@@ -4,7 +4,7 @@ const { ethers } = require('hardhat');
 let tx;
 let txReceipt;
 const approvalAmount = '1000000';
-const wethMint = '10000';
+const wethMint = '1000';
 
 // Pool Configuration (tok0 is WETH)
 const pool1 = {
