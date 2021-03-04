@@ -3,7 +3,7 @@ const { ethers } = require('hardhat');
 // Variables
 let tx;
 let txReceipt;
-const approvalAmount = '1000000';
+const approvalAmount = '1000';
 const wethMint = '1000';
 
 // Pool Configuration (tok0 is WETH)
@@ -73,7 +73,7 @@ async function deploy() {
    [account1] = await ethers.getSigners();
 
    deployerAddress = account1.address;
-   console.log(`Deploying contracts using ${deployerAddress}`);
+   console.log(`Deploying core contracts using ${deployerAddress}`);
 
    //Deploy Factory
    const factory = await ethers.getContractFactory('BFactory');
@@ -131,21 +131,6 @@ async function deploy() {
    const sorMCInstance = await sorMC.deploy();
    await sorMCInstance.deployed();
    console.log(`Deploy: sorMultiCall deployed to : ${sorMCInstance.address}`);
-
-   // ONLY NEEDED FOR BALANCER-FRONTEND INTERFACE
-   /* //Deploy DSProxyFactory
-   const dsProxy = await ethers.getContractFactory('DSProxyFactory');
-   const dsProxyInstance = await dsProxy.deploy();
-   await dsProxyInstance.deployed();
-   console.log(
-      `Deploy: DSProxyFactory deployed to : ${dsProxyInstance.address}`
-   );
-
-   //Deploy BActions
-   const bActions = await ethers.getContractFactory('BActions');
-   const bActionsInstance = await bActions.deploy();
-   await bActionsInstance.deployed();
-   console.log(`Deploy: BActions deployed to : ${bActionsInstance.address}`);*/
 
    //Deploy Tokens
    const tok1 = await ethers.getContractFactory('Token');

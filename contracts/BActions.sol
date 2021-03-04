@@ -36,7 +36,7 @@ abstract contract AbstractPool is ERC20, BalancerOwnable {
     ) external virtual returns (uint poolAmountOut);
 }
 
-abstract contract BPool is AbstractPool {
+abstract contract BPoolActions is AbstractPool {
     function finalize() external virtual;
     function bind(address token, uint balance, uint denorm) external virtual;
     function rebind(address token, uint balance, uint denorm) external virtual;
@@ -47,8 +47,8 @@ abstract contract BPool is AbstractPool {
     function getBalance(address token) external view virtual returns (uint);
 }
 
-abstract contract BFactory {
-    function newBPool() external virtual returns (BPool);
+abstract contract BFactoryActions {
+    function newBPool() external virtual returns (BPoolActions);
 }
 
 abstract contract ConfigurableRightsPool is AbstractPool {
@@ -81,7 +81,7 @@ abstract contract ConfigurableRightsPool is AbstractPool {
     function removeToken(address token) external virtual;
     function whitelistLiquidityProvider(address provider) external virtual;
     function removeWhitelistedLiquidityProvider(address provider) external virtual;
-    function bPool() external view virtual returns (BPool);
+    function bPool() external view virtual returns (BPoolActions);
 }
 
 abstract contract CRPFactory {
@@ -104,13 +104,13 @@ contract BActions {
     // --- Pool Creation ---
 
     function create(
-        BFactory factory,
+        BFactoryActions factory,
         address[] calldata tokens,
         uint[] calldata balances,
         uint[] calldata weights,
         uint swapFee,
         bool finalize
-    ) external returns (BPool pool) {
+    ) external returns (BPoolActions pool) {
         require(tokens.length == balances.length, "ERR_LENGTH_MISMATCH");
         require(tokens.length == weights.length, "ERR_LENGTH_MISMATCH");
 
@@ -134,7 +134,7 @@ contract BActions {
     
     function createSmartPool(
         CRPFactory factory,
-        BFactory bFactory,
+        BFactoryActions bFactory,
         ConfigurableRightsPool.PoolParams calldata poolParams,
         ConfigurableRightsPool.CrpParams calldata crpParams,
         RightsManager.Rights calldata rights
@@ -175,7 +175,7 @@ contract BActions {
     // --- Joins ---
     
     function joinPool(
-        BPool pool,
+        BPoolActions pool,
         uint poolAmountOut,
         uint[] calldata maxAmountsIn
     ) external {
@@ -221,7 +221,7 @@ contract BActions {
     // --- Private pool management ---
 
     function setTokens(
-        BPool pool,
+        BPoolActions pool,
         address[] calldata tokens,
         uint[] calldata balances,
         uint[] calldata denorms
@@ -258,7 +258,7 @@ contract BActions {
         }
     }
 
-    function finalize(BPool pool) external {
+    function finalize(BPoolActions pool) external {
         pool.finalize();
         require(pool.transfer(msg.sender, pool.balanceOf(address(this))), "ERR_TRANSFER_FAILED");
     }
