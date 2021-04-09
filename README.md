@@ -23,12 +23,14 @@ Add your PK in the `hardhat.config.js` file (please take care of you PK, they pr
 
 ```
 npx hardhat run --network standalone scripts/deploy-balancer.js
+npx hardhat run --network standalone scripts/deploy-bactions.js
 ```
 
 Or for Moonbase Alpha:
 
 ```
 npx hardhat run --network moonbase scripts/deploy-balancer.js
+npx hardhat run --network moonbase scripts/deploy-bactions.js
 ```
 
 You can also run the "test" with the following code:
